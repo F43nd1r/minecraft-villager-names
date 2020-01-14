@@ -1,21 +1,9 @@
-buildscript {
-    repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
-    }
+plugins {
+    id 'net.minecraftforge.gradle' version '3.0.159'
+    id 'maven-publish'
+    id 'net.researchgate.release' version '2.8.1'
 }
-apply plugin: 'net.minecraftforge.gradle'
-// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
 
-version = '1.0'
-group = 'com.faendir.minecraft' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'villager-names'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
@@ -108,7 +96,6 @@ dependencies {
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-    //deobf name:"vilnames_1.14-1.4"
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
@@ -146,4 +133,8 @@ publishing {
             url "file:///${project.projectDir}/mcmodsrepo"
         }
     }
+}
+
+release {
+    tagTemplate = "v\$version"
 }
