@@ -16,7 +16,7 @@ jobs:
         with:
           java-version: '1.8'
       - name: Build release
-        run: ./gradlew clean prepareRuns build
+        run: ./gradlew clean prepareRuns reobfjar
       - name: Extract version
         id: version
         run: echo ::set-output name=value::$(./gradlew properties -q | grep "^version:" | awk '{printf $2}')
@@ -37,6 +37,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/libs/villager-names-${{ steps.version.outputs.value }}.jar
+          asset_path: ./build/reobfJar/output.jar
           asset_name: villager-names-${{ steps.version.outputs.value }}.jar
           asset_content_type: application/zip
