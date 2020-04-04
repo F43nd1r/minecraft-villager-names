@@ -30,7 +30,7 @@ public class VillagerEvent {
                 if (!"none".equals(prof.toString())) {
                     String profession = prof.toString();
                     PlayerEntity var7 = e.getPlayer();
-                    if (!var7.isSneaking()) {
+                    if (!var7.isCrouching()) {
                         final String name = villager.getName().getString();
                         final String upperProfession = profession.substring(0, 1).toUpperCase() + profession.substring(1);
                         villager.setCustomName(new StringTextComponent(name + " the " + upperProfession));
