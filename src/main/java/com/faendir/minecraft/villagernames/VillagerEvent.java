@@ -1,11 +1,13 @@
 package com.faendir.minecraft.villagernames;
 
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.merchant.villager.VillagerData;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -24,22 +26,23 @@ public class VillagerEvent {
                 if (!entity.hasCustomName()) {
                     entity.setCustomName(new StringTextComponent(NameGenerator.generateName()));
                 }
-                final VillagerEntity villager = (VillagerEntity) entity;
+                final VillagerEntity villager = (VillagerEntity)entity;
                 VillagerData data = villager.getVillagerData();
                 VillagerProfession prof = data.getProfession();
                 if (!"none".equals(prof.toString())) {
-                    String profession = prof.toString();
+                    ResourceLocation location = prof.getRegistryName();
+                    String profession = I18n.format("entity.minecraft.villager." +
+                            (!"minecraft".equals(location.getNamespace()) ? location.getNamespace() + "." : "") + location.getPath());
                     PlayerEntity var7 = e.getPlayer();
                     if (!var7.isCrouching()) {
                         final String name = villager.getName().getString();
-                        final String upperProfession = profession.substring(0, 1).toUpperCase() + profession.substring(1);
-                        villager.setCustomName(new StringTextComponent(name + " the " + upperProfession));
+                        villager.setCustomName(new StringTextComponent(name + " the " + profession));
                         new Thread(() -> {
                             try {
-                                Thread.sleep(1);
+                                Thread.sleep(10);
                             } catch (InterruptedException ignored) {
                             }
-                            villager.setCustomName(new StringTextComponent(name.replace(" the ", "").replace(upperProfession, "")));
+                            villager.setCustomName(new StringTextComponent(name.replace(" the ", "").replace(profession, "")));
                         }).start();
                     }
                 }
