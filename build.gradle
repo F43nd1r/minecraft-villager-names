@@ -98,6 +98,7 @@ publishing {
 
 release {
     tagTemplate = "v\$version"
+    ignoredSnapshotDependencies += "org.spongepowered:mixingradle"
 }
 
 mixin {
